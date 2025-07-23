@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Add Subscriber</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.email.label }} {{ form.email(class="form-control") }}
+    {{ form.plan.label }} {{ form.plan(class="form-select") }}
+    <br>
+    {{ form.submit(class="btn btn-primary") }}
+  </form>
+
+  <hr>
+  <h3>Active Subscribers</h3>
+  <table class="table table-striped">
+    <thead><tr><th>Email</th><th>Plan</th><th>Date</th><th>Actions</th></tr></thead>
+    <tbody>
+    {% for s in subscribers %}
+      <tr>
+        <td>{{ s.email }}</td>
+        <td>{{ s.plan }}</td>
+        <td>{{ s.subscribed_on.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td>
+          <a href="{{ url_for('update', id=s.id) }}" class="btn btn-sm btn-warning">Update</a>
+          <a href="{{ url_for('delete', id=s.id) }}" class="btn btn-sm btn-danger">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
